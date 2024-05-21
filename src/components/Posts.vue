@@ -1,3 +1,5 @@
+<!-- Ini Codingan untuk Posts.vue dan Inilah Child Component -->
+
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 

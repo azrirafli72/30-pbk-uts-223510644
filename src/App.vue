@@ -1,3 +1,5 @@
+<!-- Ini Adalah Component Utama -->
+
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import Todos from './components/Todos.vue'
