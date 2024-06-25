@@ -1,106 +1,57 @@
-<!-- Ini Adalah Component Utama -->
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated>
+      <q-toolbar>
+        <q-btn flat round dense icon="menu" @click="drawer = !drawer" />
+        <q-toolbar-title>Project UAS M. Rafli Azriansyah</q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer v-model="drawer" show-if-above>
+      <q-list>
+        <q-item clickable @click="navigateTo('/todos')">
+          <q-item-section>Todos</q-item-section>
+        </q-item>
+        <q-item clickable @click="navigateTo('/posts')">
+          <q-item-section>Posts</q-item-section>
+        </q-item>
+        <q-item clickable @click="navigateTo('/albums')">
+          <q-item-section>Albums</q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view></router-view>
+    </q-page-container>
+  </q-layout>
+</template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
-import Todos from './components/Todos.vue'
-import Posts from './components/Posts.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const activeSection = ref('todos') // Defaultnya adalah Todos
-const users = ref([])
-const selectedUser = ref(null)
-const selectedUserName = ref('')
-const userPosts = ref([])
+const drawer = ref(false)
+const router = useRouter()
 
-const showTodos = () => {
-  activeSection.value = 'todos'
+const navigateTo = (path) => {
+  router.push(path)
 }
-
-const showPosts = async () => {
-  activeSection.value = 'posts'
-  await fetchUsers()
-}
-
-const fetchUsers = async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/users')
-  const data = await response.json()
-  users.value = data
-}
-
-const fetchUserPosts = async () => {
-  const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${selectedUser.value}`)
-  const data = await response.json()
-  userPosts.value = data
-}
-
-onMounted(async () => {
-  await fetchUsers()
-})
-
-watch(selectedUser, () => {
-  if (selectedUser.value) {
-    fetchUserPosts()
-    selectedUserName.value = users.value.find(user => user.id === selectedUser.value)?.name || ''
-  } else {
-    userPosts.value = []
-    selectedUserName.value = ''
-  }
-})
-
 </script>
-
-<template>
-  <div class="container">
-    <header>
-      <nav>
-        <ul>
-          <li><button @click="showTodos">Todos</button></li>
-          <li><button @click="showPosts">Post</button></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main class="app">
-      <!-- Jika bagian aktif yang ditekan adalah Todos -->
-      <section v-if="activeSection === 'todos'">
-        <!-- Konten Todos -->
-        <Todos />
-      </section>
-
-      <!-- Jika bagian aktif yang ditekan adalah Post -->
-      <section v-else-if="activeSection === 'posts'">
-        <Posts />
-      </section>
-    </main>
-  </div>
-</template>
 
 <style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
-  color: #fdfeff;
+  color: #2c3e50;
 }
 
-header {
-  background-color: rgb(87, 132, 230);
-  padding: 20px;
+.q-toolbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin: 20px;
-  cursor: pointer;
-  color: rgb(228, 220, 220);
-}
-
-nav ul li button {
-  color: #fdfeff;
-  margin-top: 15px;
-  font-size: larger;
+.q-drawer {
+  width: 200px;
 }
 </style>
