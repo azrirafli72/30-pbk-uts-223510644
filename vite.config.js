@@ -16,5 +16,11 @@ export default defineConfig({
     quasar({
       sassVariables: 'src/quasar-variables.sass'
     })
-  ]
-})
+  ],
+  build: {
+    outDir: 'dist',
+  },
+  server: {
+    open: true,
+  }
+});
