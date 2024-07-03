@@ -29,7 +29,8 @@ input:not([type="radio"]):not([type="checkbox"]), button {
 }
 
 body {
-	background: var(--light);
+	background: var(--light) url('./components/Gambar2.jpg') no-repeat center center;
+	background-size: cover;
 	color: var(--dark);
 }
 
